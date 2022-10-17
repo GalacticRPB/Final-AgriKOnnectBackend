@@ -12,7 +12,10 @@ class UserController extends Controller
     function register(Request $req)
     {
         $user = new User;
-        $user->name=$req->input('name');
+        $user->firstname=$req->input('firstname');
+        $user->middlename=$req->input('middlename');
+        $user->lastname=$req->input('lastname');
+        $user->username=$req->input('username');
         $user->email=$req->input('email');
         $user->password=Hash::make($req->input('password'));
         $user->save();
@@ -22,7 +25,7 @@ class UserController extends Controller
     //
     function login(Request $req)
     {
-        $user= User::where('email',$req->email)->first();
+        $user= User::where('username',$req->username)->first();
         if(!$user || !Hash::check($req->password, $user->password))
         {
             return ["error"=> "Email or password is incorrect"];
