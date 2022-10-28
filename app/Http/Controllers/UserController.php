@@ -15,11 +15,17 @@ class UserController extends Controller
         $user->firstname=$req->input('firstname');
         $user->middlename=$req->input('middlename');
         $user->lastname=$req->input('lastname');
+        $user->birthdate=$req->input('birthdate');
+        $user->gender=$req->input('gender');
         $user->username=$req->input('username');
+        $user->mobilephone=$req->input('mobilephone');
         $user->email=$req->input('email');
+        $user->address=$req->input('address');
+        $user->province=$req->input('province');
+        $user->region=$req->input('region');
         $user->password=Hash::make($req->input('password'));
         $user->save();
-        return $user;
+        return $user->toJson();
     }
 
     //

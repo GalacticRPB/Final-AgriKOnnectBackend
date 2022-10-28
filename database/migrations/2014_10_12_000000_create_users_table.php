@@ -18,8 +18,14 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('middlename');
             $table->string('lastname');
+            $table->string('birthdate');
+            $table->string('gender');
             $table->string('username');
+            $table->string('mobilephone');
             $table->string('email')->unique();
+            $table->string('address');
+            $table->string('province');
+            $table->string('region');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

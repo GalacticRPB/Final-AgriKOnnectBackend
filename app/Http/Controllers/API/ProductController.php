@@ -21,11 +21,13 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
+            'userId'=>'required',
             'category'=>'required|max:191',
             'name'=>'required|max:191',
             'description'=>'required|max:191',
             'price'=>'required|max:191',
             'quantity'=>'required|max:191',
+
         ]);
 
         if($validator->fails())
@@ -38,6 +40,7 @@ class ProductController extends Controller
         else
         {
             $product = new Product;
+            $product->user_id = $request->input('userId');
             $product->category = $request->input('category');
             $product->name = $request->input('name');
             $product->description = $request->input('description');
@@ -76,6 +79,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(),[
+            'userId' => 'required',
             'category'=>'required|max:191',
             'name'=>'required|max:191',
             'description'=>'required|max:191',
@@ -94,7 +98,8 @@ class ProductController extends Controller
         {
             $product = Product::find($id);
             if($product)
-            {
+            {   
+                $product->user_id = $request->input('userId');
                 $product->category = $request->input('category');
                 $product->name = $request->input('name');
                 $product->description = $request->input('description');
@@ -135,5 +140,12 @@ class ProductController extends Controller
                 'message' => 'No Product ID Found',
             ]);
         }
+    }
+    
+    public function getUserProducts(Request $request, $id)
+    {
+        $products = Product::where('user_id', '=', $id)->get();
+
+        return $products;
     }
 }
