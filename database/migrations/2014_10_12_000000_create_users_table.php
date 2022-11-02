@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('birthdate');
             $table->string('gender');
-            $table->string('username');
+            $table->string('username')->unique();
             $table->string('mobilephone');
             $table->string('email')->unique();
             $table->string('address');
