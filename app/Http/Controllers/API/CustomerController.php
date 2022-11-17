@@ -17,6 +17,7 @@ class CustomerController extends Controller
         $customer->middlename=$req->input('middlename');
         $customer->lastname=$req->input('lastname');
         $customer->username=$req->input('username');
+        $customer->mobilephone=$req->input('mobilephone');
         $customer->email=$req->input('email');
         $customer->password=Hash::make($req->input('password'));
         $customer->save();

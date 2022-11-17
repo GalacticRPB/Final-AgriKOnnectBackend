@@ -148,4 +148,68 @@ class ProductController extends Controller
 
         return $products;
     }
+
+    public function vegetable()
+    {
+        $products = Product::where('category', 'Like', 'Vegetable')->get();
+        return response()->json([
+            'status'=> 200,
+            'products'=>$products,
+        ]);
+        
+        
+    }
+    public function fruit()
+    {
+        $products = Product::where('category', 'Like', 'Fruit')->get();
+        return response()->json([
+            'status'=> 200,
+            'products'=>$products,
+        ]);
+    }
+
+    public function search($key)
+    {
+        return Product::where('name', 'Like', "%$key%")->get();
+    }
+
+    public function viewfruit($id)
+    {
+        $products = Product::find($id);
+        if($products)
+        {
+            return response()->json([
+                'status'=> 200,
+                'product' => $products,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=> 404,
+                'message' => 'No Product ID Found',
+            ]);
+        }
+    }
+
+    public function viewvegetable($id)
+    {
+        $products = Product::find($id);
+        if($products)
+        {
+            return response()->json([
+                'status'=> 200,
+                'product' => $products,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=> 404,
+                'message' => 'No Product ID Found',
+            ]);
+        }
+    }
+    
+    
 }

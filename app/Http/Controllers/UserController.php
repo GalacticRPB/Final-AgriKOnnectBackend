@@ -21,9 +21,8 @@ class UserController extends Controller
         $user->username=$req->input('username');
         $user->mobilephone=$req->input('mobilephone');
         $user->email=$req->input('email');
-        $user->address=$req->input('address');
-        $user->province=$req->input('province');
-        $user->region=$req->input('region');
+        $user->orgName=$req->input('orgName');
+        $user->brgy=$req->input('brgy');
         $user->password=Hash::make($req->input('password'));
         $user->save();
         return $user->toJson();
@@ -71,9 +70,8 @@ class UserController extends Controller
             'username'=>'required',
             'mobilephone'=>'required|max:11',
             'email'=>'required',
-            'address'=>'required',
-            'province'=>'required',
-            'region'=>'required',
+            'orgName'=>'required',
+            'brgy'=>'required',
         ]);
 
         if($validator->fails())
@@ -96,9 +94,8 @@ class UserController extends Controller
                 $user->username=$req->input('username');
                 $user->mobilephone=$req->input('mobilephone');
                 $user->email=$req->input('email');
-                $user->address=$req->input('address');
-                $user->province=$req->input('province');
-                $user->region=$req->input('region');
+                $user->orgName=$req->input('orgName');
+                $user->brgy=$req->input('brgy');
                 $user->update();
 
                 return response()->json([
@@ -139,7 +136,7 @@ class UserController extends Controller
     public function updatePassword(Request $req, $id)
     {
         $validator = Validator::make($req->all(),[
-            'password'=>'required|min:8',
+            'password'=>'null|min:8',
         ]);
 
         if($validator->fails())
@@ -170,5 +167,12 @@ class UserController extends Controller
                 ]);
             }
         }
+    }
+
+    public function getUserInfo(Request $request, $id)
+    {
+        $user = User::where('id', '=', $id)->get();
+
+        return $user;
     }
 }
