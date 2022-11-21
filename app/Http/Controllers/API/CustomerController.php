@@ -102,4 +102,11 @@ class CustomerController extends Controller
             }
         }
     }
+
+    public function getCustomerCart(Request $request, $id)
+    {
+        $customer = Customer::where('user_id', '=', $id)->get();
+
+        return $customer;
+    }
 }
