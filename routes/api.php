@@ -6,6 +6,7 @@ use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CheckoutController;
+use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,7 @@ Route::put('basket-updatedquantity/{cart_id}/{scope}/{id}', [CartController::cla
 Route::get('checkout/{id}',[CartController::class, 'checkoutDetails']);
 
 Route::post('place-order', [CheckoutController::class, 'placeorder']);
+Route::get('showOrder/{id}', [OrderController::class, 'index']);
 
 //Route::get('list', [ProductController::class, 'list']);
 Route::get('products/{user_id}', [ProductController::class, 'getUserProducts']);
