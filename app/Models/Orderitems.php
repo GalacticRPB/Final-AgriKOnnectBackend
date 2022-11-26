@@ -13,8 +13,10 @@ class Orderitems extends Model
         'order_id',
         'order_name',
         'seller_id',
+        'user_id',
         'product_id',
         'qty',
         'price',
+        'total_price',
     ];
 }

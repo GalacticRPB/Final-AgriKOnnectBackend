@@ -32,7 +32,7 @@ class CheckoutController extends Controller
         }
         else 
         {
-            $user_id = $request->input('customerId');
+            $user_id = $request->customerId;
             $cart_id = $request->input('cart_id');
             $seller_id = $request->input('seller_id');
             $firstname = $request->input('firstname');
@@ -60,17 +60,16 @@ class CheckoutController extends Controller
                 $orderItems[] = [
                     'order_id'=>$item->cart_id,
                     'seller_id'=>$item->seller_id,
+                    'user_id'=>$item->user_id,
                     'qty'=>$item->fruits_qty,
+                    'price'=>$item->price,
                     'order_name'=>$item->name,
-                    'price'=>$item->price * $item->fruits_qty,
+                    'total_price'=>$item->price * $item->fruits_qty,
                 ];
 
             }
 
             $order->order_items()->createMany($orderItems);
-
-            $output = new ConsoleOutput();
-            $output->writeln('test');
             
             $affected = Cart::where('id', $cart_id)->delete();
 
@@ -81,5 +80,18 @@ class CheckoutController extends Controller
             ]);
         }
     }
-    
+
+    public function showToPay(Request $request, $id)
+    {
+        $toPay = Orderitems::where('user_id', $id)->get();
+        
+        return response()->json([
+            'status'=>200,
+            'toPay'=> $toPay,
+        ]);
+
+    }
+
+   
+
 }

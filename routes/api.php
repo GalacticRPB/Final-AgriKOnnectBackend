@@ -7,6 +7,7 @@ use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CheckoutController;
 use App\Http\Controllers\API\OrderController;
+use App\Http\Controllers\API\OngoingController;
 use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,11 @@ Route::get('checkout/{id}',[CartController::class, 'checkoutDetails']);
 
 Route::post('place-order', [CheckoutController::class, 'placeorder']);
 Route::get('showOrder/{id}', [OrderController::class, 'index']);
+Route::get('orderDetails/{id}', [OrderController::class, 'orderDetails']);
+Route::get('show-to-pay/{id}', [CheckoutController::class, 'showToPay']);
+Route::post('approve-order', [OngoingController::class, 'orderApproved']);
+Route::get('ongoing-order/{id}', [OngoingController::class, 'showOngoing']);
+Route::get('to-ship-details/{id}', [OngoingController::class, 'toShipDetails']);
 
 //Route::get('list', [ProductController::class, 'list']);
 Route::get('products/{user_id}', [ProductController::class, 'getUserProducts']);
