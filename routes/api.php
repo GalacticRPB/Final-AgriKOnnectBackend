@@ -8,6 +8,9 @@ use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CheckoutController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\OngoingController;
+use App\Http\Controllers\API\DeliveryController;
+use App\Http\Controllers\API\DeliveredController;
+use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +60,13 @@ Route::get('show-to-pay/{id}', [CheckoutController::class, 'showToPay']);
 Route::post('approve-order', [OngoingController::class, 'orderApproved']);
 Route::get('ongoing-order/{id}', [OngoingController::class, 'showOngoing']);
 Route::get('to-ship-details/{id}', [OngoingController::class, 'toShipDetails']);
+Route::post('out-for-delivery', [DeliveryController::class, 'orderforDelivery']);
+Route::get('out-for-delivery/{id}', [DeliveryController::class, 'showOutforDelivery']);
+Route::post('order-delivered', [DeliveredController::class, 'orderDelivered']);
+Route::get('order-delivered/{id}', [DeliveredController::class, 'showOrderDelivered']);
+Route::get('to-review/{id}', [DeliveredController::class, 'showOrderToReview']);
+Route::post('review', [ReviewController::class, 'review']);
+Route::get('review/{id}', [ReviewController::class, 'showReview']);
 
 //Route::get('list', [ProductController::class, 'list']);
 Route::get('products/{user_id}', [ProductController::class, 'getUserProducts']);

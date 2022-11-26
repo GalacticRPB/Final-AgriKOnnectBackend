@@ -13,6 +13,7 @@ class OngoingController extends Controller
     public function orderApproved(Request $request)
     {
         $seller_id = $request->input('seller_id');
+        $customer_id = $request->input('customer_id');
         $order_id = $request->input('order_id');
         $order_name = $request->input('order_name');
         $order_price = $request->input('order_price');
@@ -28,6 +29,7 @@ class OngoingController extends Controller
     
         $ongoingItem = new Ongoing;
         $ongoingItem->seller_id = $seller_id;
+        $ongoingItem->customer_id = $customer_id;
         $ongoingItem->order_id = $order_id;
         $ongoingItem->order_name = $order_name;
         $ongoingItem->order_price = $order_price;
