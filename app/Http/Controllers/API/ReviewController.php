@@ -24,6 +24,7 @@ class ReviewController extends Controller
         }
         else
         {
+            $product_id = $request->input('product_id');
             $seller_id = $request->input('seller_id');
             $firstname = $request->input('firstname');
             $middlename = $request->input('middlename');
@@ -34,6 +35,7 @@ class ReviewController extends Controller
             
 
             $reviewItem = new Review;
+            $reviewItem->product_id = $product_id;
             $reviewItem->seller_id = $seller_id;
             $reviewItem->firstname = $firstname;
             $reviewItem->middlename = $middlename;

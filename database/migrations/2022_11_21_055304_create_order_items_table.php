@@ -16,9 +16,12 @@ return new class extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
             $table->integer('order_id');
-            $table->integer('product_id');
+            $table->integer('seller_id');
+            $table->integer('user_id');
+            $table->string('order_name');
             $table->integer('qty');
             $table->integer('price');
+            $table->integer('total_price');
             $table->timestamps();
         });
     }

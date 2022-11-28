@@ -24,10 +24,10 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('mobilephone')->unique();
             $table->string('email')->unique();
-            $table->string('orgName');
             $table->string('image')->nullable();
             $table->string('verified')->default('false');
             $table->string('brgy');
+            $table->string('shippingfee');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

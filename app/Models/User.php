@@ -22,7 +22,6 @@ class User extends Authenticatable
         'middlename',
         'lastname',
         'username',
-        'orgName',
         'image',
         'mobilephone',
         'email',

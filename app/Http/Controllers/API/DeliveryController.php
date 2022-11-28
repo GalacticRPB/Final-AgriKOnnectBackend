@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Delivery;
 use App\Models\Ongoing;
+use App\Models\Order;
+use App\Models\Orderitems;
+
 class DeliveryController extends Controller
 {
     public function orderforDelivery(Request $request)
     {
+        $product_id = $request->input('product_id');
         $seller_id = $request->input('seller_id');
-        $customer_id = $request->input('customer_id');
+        $customer_id = $request->input('customerId');
         $order_id = $request->input('order_id');
         $order_name = $request->input('order_name');
         $order_price = $request->input('order_price');
@@ -25,8 +29,9 @@ class DeliveryController extends Controller
         $modeofpayment = $request->input('modeofpayment');
         
         $outfordelivery = new Delivery;
+        $outfordelivery->product_id = $product_id;
         $outfordelivery->seller_id = $seller_id;
-        $outfordelivery->customer_id = $customer_id;
+        $outfordelivery->customerId = $customer_id;
         $outfordelivery->order_id = $order_id;
         $outfordelivery->order_name = $order_name;
         $outfordelivery->order_price = $order_price;
@@ -40,7 +45,8 @@ class DeliveryController extends Controller
         $outfordelivery->modeofpayment = $modeofpayment;
         $outfordelivery->save();
 
-        $affected = Ongoing::where('order_id', $order_id)->delete();
+        $affected = Order::where('id', $order_id)->delete();
+        $affected = Orderitems::where('order_id', $order_id)->delete();
 
         return response()->json([
             'status'=>200,
@@ -50,7 +56,7 @@ class DeliveryController extends Controller
 
     public function showOutforDelivery(Request $request, $id)
     {
-        $outforDelivery = Delivery::where('customer_id', $id)->get();
+        $outforDelivery = Delivery::where('customerId', $id)->get();
 
         return response()->json([
             'status'=>200,

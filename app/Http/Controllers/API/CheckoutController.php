@@ -32,9 +32,11 @@ class CheckoutController extends Controller
         }
         else 
         {
+
             $user_id = $request->customerId;
             $cart_id = $request->input('cart_id');
             $seller_id = $request->input('seller_id');
+            $product_id = $request->input('product_id');
             $firstname = $request->input('firstname');
             $middlename = $request->input('middlename');
             $lastname = $request->input('lastname');
@@ -43,13 +45,13 @@ class CheckoutController extends Controller
             $order->user_id = $user_id;
             $order->cart_id = $cart_id;
             $order->seller_id = $seller_id;
+            $order->product_id = $product_id;
             $order->firstname = $firstname;
             $order->middlename = $middlename;
             $order->lastname = $lastname;
             $order->shippingaddress = $request->input('shippingaddress');
             $order->mobilephone = $request->input('mobilephone');
             $order->modeofpayment = $request->input('modeofpayment');
-            $order->tracking_no = "agrikOnnect".rand(1111,9999);
             $order->save();
             
             $cart = Cart::where('user_id', $user_id )->where('id', $cart_id)->get();
@@ -58,6 +60,7 @@ class CheckoutController extends Controller
             foreach($cart as $item)
             {
                 $orderItems[] = [
+                    'product_id'=>$item->product_id,
                     'order_id'=>$item->cart_id,
                     'seller_id'=>$item->seller_id,
                     'user_id'=>$item->user_id,

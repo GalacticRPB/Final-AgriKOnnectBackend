@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('users', [UserController::class, 'index']);
 Route::get('users2', [UserController::class, 'index2']);
 Route::get('/edit-verification/{id}', [UserController::class, 'editVerification']);
-Route::put('/update-verification/{id}', [UserController::class, 'verification']);
+Route::post('/update-verification/{id}', [UserController::class, 'verification']);
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
 Route::get('/edit/{id}', [UserController::class, 'edit']);
@@ -65,11 +65,13 @@ Route::get('out-for-delivery/{id}', [DeliveryController::class, 'showOutforDeliv
 Route::post('order-delivered', [DeliveredController::class, 'orderDelivered']);
 Route::get('order-delivered/{id}', [DeliveredController::class, 'showOrderDelivered']);
 Route::get('to-review/{id}', [DeliveredController::class, 'showOrderToReview']);
+Route::get('to-review-item/{id}',[DeliveredController::class, 'showToReview']);
 Route::post('review', [ReviewController::class, 'review']);
 Route::get('review/{id}', [ReviewController::class, 'showReview']);
 
 //Route::get('list', [ProductController::class, 'list']);
 Route::get('products/{user_id}', [ProductController::class, 'getUserProducts']);
+Route::get('edit-product/{id}', [ProductController::class, 'edit']);
 Route::resource('products', ProductController::class);
 Route::get('/vegetable', [ProductController::class, 'vegetable']);
 Route::get('/fruit',[ProductController::class, 'fruit']);

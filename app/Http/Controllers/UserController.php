@@ -38,11 +38,11 @@ class UserController extends Controller
             'gender'=>'nullable',
             'username'=>'required',
             'mobilephone'=>'required|max:11',
-            'email'=>'nullable',
-            'orgName'=>'required',
+            'email'=>'required',
             'image'=>'required|image|mimes:jpeg,png,jpg|max:2048',
             'userImage'=>'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'brgy'=>'nullable',
+            'shippingfee'=>'required',
         ]);
 
         if($validator->fails())
@@ -63,7 +63,6 @@ class UserController extends Controller
             $user->username=$req->input('username');
             $user->mobilephone=$req->input('mobilephone');
             $user->email=$req->input('email');
-            $user->orgName=$req->input('orgName');
 
             if($req->hasFile('image'))
             {
@@ -76,12 +75,13 @@ class UserController extends Controller
 
             $user->verified=$req->input('verified');
             $user->brgy=$req->input('brgy');
+            $user->shippingfee=$req->input('shippingfee');
             $user->password=Hash::make($req->input('password'));
             $user->save();
 
             return response()->json([
                 'status'=> 200,
-                'message' => 'Register User',
+                'message' => 'Registration Submitted',
             ]);
         }
 
@@ -132,7 +132,6 @@ class UserController extends Controller
             'username'=>'required',
             'mobilephone'=>'required|max:11',
             'email'=>'required',
-            'orgName'=>'required',
             'brgy'=>'required',
         ]);
 
@@ -156,7 +155,6 @@ class UserController extends Controller
                 $user->username=$req->input('username');
                 $user->mobilephone=$req->input('mobilephone');
                 $user->email=$req->input('email');
-                $user->orgName=$req->input('orgName');
                 $user->brgy=$req->input('brgy');
                 $user->update();
 
@@ -260,38 +258,17 @@ class UserController extends Controller
 
     public function verification(Request $request, $id)
     {
-        $validator = Validator::make($request->all(),[
-            'verified'=>'required|max:80',
+        $verified = $request->get('verified');
+
+        $user = User::find($id);
+        $user->verified = $verified;
+        $user->update();
+
+        return response()->json([
+            'status'=> 200,
+            'message'=>'Seller Status Updated and Ready to Start Selling!',
         ]);
-
-        if($validator->fails())
-        {
-            return response()->json([
-                'status'=> 422,
-                'validationErrors'=> $validator->messages(),
-            ]);
-        }
-        else
-        {
-            $user = User::find($id);
-            if($user)
-            {
-                $user->verified = $request->input('verified');
-                $user->update();
-
-                return response()->json([
-                    'status'=> 200,
-                    'message'=>'Seller Status Updated and Ready to Start Selling!',
-                ]);
-            }
-            else
-            {
-                return response()->json([
-                    'status'=> 404,
-                    'message' => 'No Seller ID Found',
-                ]);
-            }
-        }
+    
     }
 
     public function editImage($id)

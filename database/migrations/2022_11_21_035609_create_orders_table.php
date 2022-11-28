@@ -16,17 +16,14 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->integer('seller_id');
             $table->integer('cart_id');
             $table->string('firstname');
             $table->string('middlename');
             $table->string('lastname');
             $table->string('shippingaddress');
             $table->string('mobilephone');
-            $table->string('paymentId')->nullable();
             $table->string('modeofpayment');
-            $table->string('tracking_no');
-            $table->tinyInteger('status')->default('0');
-            $table->text('remark');
             $table->timestamps();
         });
     }

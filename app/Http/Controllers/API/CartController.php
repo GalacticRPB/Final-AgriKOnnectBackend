@@ -12,6 +12,7 @@ class CartController extends Controller
 {
     public function addtoCart(Request $request)
     {
+        $product_id = $request->product_id;
         $user_id = $request->customerId;
         $seller_id = $request->seller_id;
         $fruits_id = $request->fruits_id;
@@ -33,6 +34,7 @@ class CartController extends Controller
             {
                 $cartItem = new Cart;
                 $cartItem->user_id = $request->input('customerId');
+                $cartItem->product_id = $product_id;
                 $cartItem->seller_id = $seller_id;
                 $cartItem->fruits_id = $fruits_id;
                 $cartItem->fruits_qty = $fruits_qty;

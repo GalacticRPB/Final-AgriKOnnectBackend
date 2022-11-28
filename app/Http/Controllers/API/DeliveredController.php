@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Ongoing;
 use App\Models\Delivery;
 use App\Models\Delivered;
 
@@ -11,8 +12,9 @@ class DeliveredController extends Controller
 {
     public function orderDelivered(Request $request)
     {
+        $product_id = $request->input('product_id');
         $seller_id = $request->input('seller_id');
-        $customerId = $request->input('customer_id');
+        $customerId = $request->input('customerId');
         $order_id = $request->input('order_id');
         $order_name = $request->input('order_name');
         $order_price = $request->input('order_price');
@@ -26,6 +28,7 @@ class DeliveredController extends Controller
         $modeofpayment = $request->input('modeofpayment');
         
         $outfordelivery = new Delivered;
+        $outfordelivery->product_id = $product_id;
         $outfordelivery->seller_id = $seller_id;
         $outfordelivery->customerId = $customerId;
         $outfordelivery->order_id = $order_id;
@@ -41,6 +44,8 @@ class DeliveredController extends Controller
         $outfordelivery->modeofpayment = $modeofpayment;
         $outfordelivery->save();
 
+        
+        $affected = Ongoing::where('order_id', $order_id)->delete();
         $affected = Delivery::where('order_id', $order_id)->delete();
 
         return response()->json([
@@ -68,6 +73,26 @@ class DeliveredController extends Controller
             'status'=>200,
             'delivered'=> $delivered,
         ]);
+      
+    }
+
+    public function showToReview($order_id)
+    {
+        $delivered = Delivered::find($order_id);
+        if($delivered)
+        {
+            return response()->json([
+                'status'=> 200,
+                'delivered' => $delivered,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=> 404,
+                'message' => 'No Product ID Found',
+            ]);
+        }
       
     }
 }

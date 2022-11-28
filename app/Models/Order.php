@@ -16,9 +16,6 @@ class Order extends Model
         'shippingadress',
         'paymentId',
         'modeofpayment',
-        'tracking_no',
-        'status',
-        'remark',
     ];
 
     public function order_items()

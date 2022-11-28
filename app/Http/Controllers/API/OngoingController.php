@@ -5,13 +5,14 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ongoing;
-use App\Models\Order;
+use App\Models\Product;
 use App\Models\Orderitems;
 
 class OngoingController extends Controller
 {
     public function orderApproved(Request $request)
     {
+        $product_id = $request->input('product_id');
         $seller_id = $request->input('seller_id');
         $customer_id = $request->input('customer_id');
         $order_id = $request->input('order_id');
@@ -28,8 +29,9 @@ class OngoingController extends Controller
         
     
         $ongoingItem = new Ongoing;
+        $ongoingItem->product_id = $product_id;
         $ongoingItem->seller_id = $seller_id;
-        $ongoingItem->customer_id = $customer_id;
+        $ongoingItem->customerId = $customer_id;
         $ongoingItem->order_id = $order_id;
         $ongoingItem->order_name = $order_name;
         $ongoingItem->order_price = $order_price;
@@ -43,8 +45,17 @@ class OngoingController extends Controller
         $ongoingItem->modeofpayment = $modeofpayment;
         $ongoingItem->save();
 
-        $affected = Order::where('id', $order_id)->delete();
-        $affected = Orderitems::where('order_id', $order_id)->delete();
+        $products = Product::where('id', $product_id);
+
+        if($products)
+        {
+            $new_qty = $products->get()->values()->get(0)->quantity - $order_qty;
+            $products->update([
+                'quantity'=>$new_qty
+            ]);
+        }
+
+
         return response()->json([
             'status'=>200,
             'message'=> 'Order Approved',
