@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Order;
 use App\Models\Cart;
 use App\Models\Shipping;
-use App\Models\Orderitems;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -36,7 +35,10 @@ class CheckoutController extends Controller
             $user_id = $request->customerId;
             $cart_id = $request->input('cart_id');
             $seller_id = $request->input('seller_id');
+            $order_name = $request->input('order_name');
+            $price = $request->input('price');
             $product_id = $request->input('product_id');
+            $product_qty = $request->input('product_qty');
             $total_price = $request->input('total_price');
             $shippingfee = $request->input('shippingfee');
             $firstname = $request->input('firstname');
@@ -47,7 +49,10 @@ class CheckoutController extends Controller
             $order->user_id = $user_id;
             $order->cart_id = $cart_id;
             $order->seller_id = $seller_id;
+            $order->order_name = $order_name;
+            $order->price = $price;
             $order->product_id = $product_id;
+            $order->product_qty = $product_qty;
             $order->shippingfee = $shippingfee;
             $order->total_price = $total_price;
             $order->firstname = $firstname;
@@ -57,27 +62,6 @@ class CheckoutController extends Controller
             $order->mobilephone = $request->input('mobilephone');
             $order->modeofpayment = $request->input('modeofpayment');
             $order->save();
-            
-            $cart = Cart::where('user_id', $user_id )->where('id', $cart_id)->get();
-            
-            $orderItems = [];
-            foreach($cart as $item)
-            {
-                $orderItems[] = [
-                    'product_id'=>$item->product_id,
-                    'order_id'=>$item->cart_id,
-                    'seller_id'=>$item->seller_id,
-                    'user_id'=>$item->user_id,
-                    'qty'=>$item->fruits_qty,
-                    'price'=>$item->price,
-                    'order_name'=>$item->name,
-                    'total_price'=>$item->total_price,
-                    'shippingfee'=>$item->shippingfee,
-                ];
-
-            }
-
-            $order->order_items()->createMany($orderItems);
             
             $affected = Cart::where('user_id', $user_id)->delete();
 
@@ -91,7 +75,7 @@ class CheckoutController extends Controller
 
     public function showToPay(Request $request, $id)
     {
-        $toPay = Orderitems::where('user_id', $id)->get();
+        $toPay = Order::where('user_id', $id)->get();
         
         return response()->json([
             'status'=>200,

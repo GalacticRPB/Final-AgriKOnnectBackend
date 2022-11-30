@@ -21,7 +21,7 @@ class DeliveryController extends Controller
         $order_price = $request->input('order_price');
         $order_qty = $request->input('order_qty');
         $order_total = $request->input('order_total');
-        $firstname = $request->firstname;
+        $firstname = $request->input('firstname');
         $middlename = $request->input('middlename');
         $lastname = $request->input('lastname');
         $contactNo = $request->input('mobilephone');
@@ -44,6 +44,16 @@ class DeliveryController extends Controller
         $outfordelivery->shippingaddress = $shippingaddress;
         $outfordelivery->modeofpayment = $modeofpayment;
         $outfordelivery->save();
+
+        $products = Product::where('id', $product_id);
+
+        if($products)
+        {
+            $new_qty = $products->get()->values()->get(0)->quantity - $order_qty;
+            $products->update([
+                'quantity'=>$new_qty
+            ]);
+        }
 
         return response()->json([
             'status'=>200,

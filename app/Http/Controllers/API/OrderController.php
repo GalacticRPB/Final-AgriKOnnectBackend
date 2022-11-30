@@ -13,16 +13,11 @@ class OrderController extends Controller
     public function index($user_id)
     {
 
-        $orders = Orderitems::where('seller_id', $user_id)->get();
-        if($orders)
-        {
-            $item = (Order::where('seller_id', $user_id)->get());
-            return response()->json([
-                'status'=>200,
-                'order_items'=>$orders,
-                'orders'=>$item
-            ]);
-        }
+        $orders = Order::where('seller_id', $user_id)->get();
+        return response()->json([
+            'status'=>200,
+            'orders'=>$orders
+        ]);
     }
 
     public function orderDetails($order_id)

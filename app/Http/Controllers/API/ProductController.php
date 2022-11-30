@@ -207,7 +207,7 @@ class ProductController extends Controller
 
     public function recentSold($user_id)
     {
-        $recent = Delivered::where('seller_id', $user_id)->get();
+        $recent = Review::where('seller_id', $user_id)->orderBy('updated_at', 'desc')->get();
         return response()->json([
             'status'=>200,
             'reviews'=>$recent,

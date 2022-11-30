@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Ongoing;
 use App\Models\Delivery;
 use App\Models\Delivered;
+use App\Models\Review;
 
 class DeliveredController extends Controller
 {
@@ -20,7 +21,7 @@ class DeliveredController extends Controller
         $order_price = $request->input('order_price');
         $order_qty = $request->input('order_qty');
         $order_total = $request->input('order_total');
-        $firstname = $request->firstname;
+        $firstname = $request->input('firstname');
         $middlename = $request->input('middlename');
         $lastname = $request->input('lastname');
         $contactNo = $request->input('contactNo');
@@ -45,8 +46,8 @@ class DeliveredController extends Controller
         $outfordelivery->save();
 
         
-        $affected = Ongoing::where('order_id', $order_id)->delete();
         $affected = Delivery::where('order_id', $order_id)->delete();
+        $affected = Order::where('order_id', $order_id)->delete();
 
         return response()->json([
             'status'=>200,
@@ -94,5 +95,15 @@ class DeliveredController extends Controller
             ]);
         }
       
+    }
+
+    public function showRecentTransaction($user_id)
+    {
+        $recent = Review::where('customer_id', $user_id)->orderBy('updated_at', 'desc')->get();
+
+        return response()->json([
+            'status'=>200,
+            'reviews'=>$recent,
+        ]);
     }
 }
