@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Product;
+use App\Models\Delivered;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -185,23 +186,14 @@ class ProductController extends Controller
         return Product::where('name', 'Like', "%$key%")->get();
     }
 
-    public function viewfruit($id)
+    public function viewfruit($product_id)
     {
         $products = Product::find($id);
-        if($products)
-        {
-            return response()->json([
-                'status'=> 200,
-                'product' => $products,
-            ]);
-        }
-        else
-        {
-            return response()->json([
-                'status'=> 404,
-                'message' => 'No Product ID Found',
-            ]);
-        }
+        $review = Review::where('product_id', $product_id)->get();
+        return response()->json([
+            'status'=> 200,
+            'reviews' =>$review,
+        ]);
     }
 
     public function viewvegetable($product_id)
@@ -210,6 +202,15 @@ class ProductController extends Controller
         return response()->json([
             'status'=> 200,
             'reviews' =>$review,
+        ]);
+    }
+
+    public function recentSold($user_id)
+    {
+        $recent = Delivered::where('seller_id', $user_id)->get();
+        return response()->json([
+            'status'=>200,
+            'reviews'=>$recent,
         ]);
     }
     

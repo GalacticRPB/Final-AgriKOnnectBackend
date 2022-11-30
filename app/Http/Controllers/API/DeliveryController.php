@@ -15,7 +15,7 @@ class DeliveryController extends Controller
     {
         $product_id = $request->input('product_id');
         $seller_id = $request->input('seller_id');
-        $customer_id = $request->input('customerId');
+        $customerId = $request->input('customer_id');
         $order_id = $request->input('order_id');
         $order_name = $request->input('order_name');
         $order_price = $request->input('order_price');
@@ -24,14 +24,14 @@ class DeliveryController extends Controller
         $firstname = $request->firstname;
         $middlename = $request->input('middlename');
         $lastname = $request->input('lastname');
-        $contactNo = $request->input('contactNo');
+        $contactNo = $request->input('mobilephone');
         $shippingaddress = $request->input('shippingaddress');
         $modeofpayment = $request->input('modeofpayment');
         
         $outfordelivery = new Delivery;
         $outfordelivery->product_id = $product_id;
         $outfordelivery->seller_id = $seller_id;
-        $outfordelivery->customerId = $customer_id;
+        $outfordelivery->customerId = $customerId;
         $outfordelivery->order_id = $order_id;
         $outfordelivery->order_name = $order_name;
         $outfordelivery->order_price = $order_price;
@@ -45,13 +45,24 @@ class DeliveryController extends Controller
         $outfordelivery->modeofpayment = $modeofpayment;
         $outfordelivery->save();
 
-        $affected = Order::where('id', $order_id)->delete();
-        $affected = Orderitems::where('order_id', $order_id)->delete();
-
         return response()->json([
             'status'=>200,
             'message'=> 'Order is out for Delivery',
         ]);
+    }
+
+    public function showOngoingPage($user_id)
+    {
+        $toShip = Delivery::where('seller_id', $user_id)->get();
+        if($toShip)
+        {
+            return response()->json([
+                'status'=>200,
+                'deliveries'=> $toShip,
+            ]);
+    
+        }
+        
     }
 
     public function showOutforDelivery(Request $request, $id)

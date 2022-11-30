@@ -59,6 +59,7 @@ Route::get('orderDetails/{id}', [OrderController::class, 'orderDetails']);
 Route::get('show-to-pay/{id}', [CheckoutController::class, 'showToPay']);
 Route::post('approve-order', [OngoingController::class, 'orderApproved']);
 Route::get('ongoing-order/{id}', [OngoingController::class, 'showOngoing']);
+Route::get('ongoing/{id}', [DeliveryController::class, 'showOngoingPage']);
 Route::get('to-ship-details/{id}', [OngoingController::class, 'toShipDetails']);
 Route::post('out-for-delivery', [DeliveryController::class, 'orderforDelivery']);
 Route::get('out-for-delivery/{id}', [DeliveryController::class, 'showOutforDelivery']);
@@ -78,4 +79,5 @@ Route::get('/fruit',[ProductController::class, 'fruit']);
 Route::get('/search/{key}', [ProductController::class, 'search']);
 Route::get('viewfruit/{id}',[ProductController::class, 'viewfruit']);
 Route::get('viewvegetable/{id}',[ProductController::class, 'viewvegetable']);
+Route::get('recent/{id}',[ProductController::class, 'recentSold']);
 

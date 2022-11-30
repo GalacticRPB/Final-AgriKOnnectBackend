@@ -37,6 +37,8 @@ class CheckoutController extends Controller
             $cart_id = $request->input('cart_id');
             $seller_id = $request->input('seller_id');
             $product_id = $request->input('product_id');
+            $total_price = $request->input('total_price');
+            $shippingfee = $request->input('shippingfee');
             $firstname = $request->input('firstname');
             $middlename = $request->input('middlename');
             $lastname = $request->input('lastname');
@@ -46,6 +48,8 @@ class CheckoutController extends Controller
             $order->cart_id = $cart_id;
             $order->seller_id = $seller_id;
             $order->product_id = $product_id;
+            $order->shippingfee = $shippingfee;
+            $order->total_price = $total_price;
             $order->firstname = $firstname;
             $order->middlename = $middlename;
             $order->lastname = $lastname;
@@ -67,14 +71,15 @@ class CheckoutController extends Controller
                     'qty'=>$item->fruits_qty,
                     'price'=>$item->price,
                     'order_name'=>$item->name,
-                    'total_price'=>$item->price * $item->fruits_qty,
+                    'total_price'=>$item->total_price,
+                    'shippingfee'=>$item->shippingfee,
                 ];
 
             }
 
             $order->order_items()->createMany($orderItems);
             
-            $affected = Cart::where('id', $cart_id)->delete();
+            $affected = Cart::where('user_id', $user_id)->delete();
 
             return response()->json([
                 'status'=>200,

@@ -16,9 +16,11 @@ class OrderController extends Controller
         $orders = Orderitems::where('seller_id', $user_id)->get();
         if($orders)
         {
+            $item = (Order::where('seller_id', $user_id)->get());
             return response()->json([
                 'status'=>200,
                 'order_items'=>$orders,
+                'orders'=>$item
             ]);
         }
     }

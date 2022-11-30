@@ -15,15 +15,14 @@ class CartController extends Controller
         $product_id = $request->product_id;
         $user_id = $request->customerId;
         $seller_id = $request->seller_id;
-        $fruits_id = $request->fruits_id;
         $fruits_qty = $request->fruits_qty;
         $name = $request->name;
         $price = $request->price;
 
-        $fruitCheck = Product::where('id', $fruits_id)->first();
+        $fruitCheck = Product::where('id', $product_id)->first();
         if($fruitCheck)
         {
-            if(Cart::where('fruits_id', $fruits_id)->where('user_id', $user_id)->exists())
+            if(Cart::where('product_id', $product_id)->where('user_id', $user_id)->exists())
             {
                 return response()->json([
                     'status'=>409,
@@ -36,7 +35,6 @@ class CartController extends Controller
                 $cartItem->user_id = $request->input('customerId');
                 $cartItem->product_id = $product_id;
                 $cartItem->seller_id = $seller_id;
-                $cartItem->fruits_id = $fruits_id;
                 $cartItem->fruits_qty = $fruits_qty;
                 $cartItem->name = $name;
                 $cartItem->price = $price;
@@ -86,9 +84,9 @@ class CartController extends Controller
         ]);
         
     }
-    public function checkoutDetails($cart_id)
+    public function checkoutDetails($user_id)
     {
-        $cartItems = Cart::find($cart_id);
+        $cartItems = Cart::find($user_id);
         if($cartItems)
         {
             return response()->json([
