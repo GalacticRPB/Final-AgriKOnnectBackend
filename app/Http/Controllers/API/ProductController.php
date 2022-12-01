@@ -5,9 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Models\Product;
 use App\Models\Delivered;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -213,6 +215,94 @@ class ProductController extends Controller
             'reviews'=>$recent,
         ]);
     }
-    
+
+    public function dataVisualization()
+    {
+        $Cabbage = Review::where('order_name', 'Like', 'Cabbage' )->get();
+        $Carrots = Review::where('order_name', 'Like', 'Carrots' )->get();
+        $Kangkong = Review::where('order_name', 'Like', 'Kangkong')->get();
+        $Pechay = Review::where('order_name', 'Like', 'Pechay')->get();
+        $Mustasa = Review::where('order_name', 'Like', 'Mustasa')->get();
+        $Sayote = Review::where('order_name', 'Like', 'Sayote')->get();
+        $Malunggay = Review::where('order_name', 'Like', 'Malunggay')->get();
+        $Patola = Review::where('order_name', 'Like', 'Patola')->get();
+
+        $CabbageCount = $Cabbage->count();
+        $CarrotsCount = $Carrots->count();
+        $KangkongCount = $Kangkong->count();
+        $PechayCount = $Pechay->count();
+        $MustasaCount = $Mustasa->count();
+        $SayoteCount = $Sayote->count();
+        $MalunggayCount = $Malunggay->count();
+        $PatolaCount = $Patola->count();
+
+        $data = [
+            $CabbageCount,
+            $CarrotsCount,
+            $KangkongCount,
+            $PechayCount,
+            $MustasaCount,
+            $SayoteCount,
+            $MalunggayCount,
+            $PatolaCount,
+        ]; 
+
+        return response()->json([
+            'status'=>200,
+            'data'=> $data,
+        ]);
+
+    }
+
+    public function recommended()
+    {
+        /*$data = Delivered::where('id', 'created_at')->get()->groupBy(function($data)
+        {
+            return Carbon::parse($data->created_at)->format('M');
+            return response()->json([
+                'delivered'=> $data,
+            ]);
+        });
+
+        $data = Review::table('reviews')
+             ->select(Review::raw('count(*) as user_count, created_at'))
+             ->where('created_at', '<>', 1)
+             ->groupBy('created_at')
+             ->get();   
+        
+        echo $data;*/
+        
+        $data = Delivered::select('order_name','order_qty',)->groupBy('order_name','order_qty')->orderBy('order_qty', 'desc')->get();
+
+        return response()->json([
+            'status'=>200,
+            'data'=> $data,
+        ]);
+    }
+
+    public function visualization()
+    {
+        $data = Delivered::select('order_qty')->get();
+
+        return response()->json([
+            'status'=>200,
+            'data'=> $data,
+        ]);
+    }
+
+    /*public function visualization()
+    {
+        $data = Delivered::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->count();
+        $datas = Delivered::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->subMonth(1))->count();
+        $datass = Delivered::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->subMonth(2))->count();
+        $datasss = Delivered::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->subMonth(3))->count();
+
+        $productCount = array($data, $datas, $datass, $datasss);
+
+        return response()->json([
+            'status'=>200,
+            'data'=> $productCount,
+        ]);
+    }*/
     
 }

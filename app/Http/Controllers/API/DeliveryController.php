@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Delivery;
 use App\Models\Ongoing;
 use App\Models\Order;
-use App\Models\Orderitems;
+use App\Models\Product;
 
 class DeliveryController extends Controller
 {
