@@ -272,7 +272,7 @@ class ProductController extends Controller
         
         echo $data;*/
         
-        $data = Delivered::select('order_name','order_qty',)->groupBy('order_name','order_qty')->orderBy('order_qty', 'desc')->get();
+        $data = Delivered::select('product_id', 'order_price','order_name','order_qty',)->groupBy('product_id', 'order_price','order_name','order_qty')->orderBy('order_qty', 'desc')->get();
 
         return response()->json([
             'status'=>200,
@@ -280,9 +280,9 @@ class ProductController extends Controller
         ]);
     }
 
-    public function visualization()
+    public function visualization($id)
     {
-        $data = Delivered::select('order_qty')->get();
+        $data = Delivered::select('order_qty')->where('seller_id', $id)->get();
 
         return response()->json([
             'status'=>200,

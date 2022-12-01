@@ -82,5 +82,5 @@ Route::get('viewvegetable/{id}',[ProductController::class, 'viewvegetable']);
 Route::get('recent/{id}',[ProductController::class, 'recentSold']);
 Route::get('customer-recent/{id}',[DeliveredController::class, 'showRecentTransaction']);
 
-Route::get('/data', [ProductController::class, 'visualization']);
+Route::get('/data/{id}', [ProductController::class, 'visualization']);
 Route::get('/product-recommended', [ProductController::class, 'recommended']);
