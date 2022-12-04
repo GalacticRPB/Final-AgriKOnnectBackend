@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('seller_id');
             $table->integer('fruits_id');
             $table->integer('fruits_qty');
+            $table->string('image')->nullable();
             $table->string('name');
             $table->string('price');
             $table->timestamps();

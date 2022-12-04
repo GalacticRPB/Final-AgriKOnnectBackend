@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ongoings', function (Blueprint $table) {
+        Schema::create('sellerdelivered', function (Blueprint $table) {
             $table->id();
+            $table->integer('seller_id');
             $table->integer('customerId');
             $table->integer('order_id');
-            $table->integer('seller_id');
             $table->string('order_name');
             $table->integer('order_price');
             $table->integer('order_qty');
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ongoings');
+        Schema::dropIfExists('sellerdelivered');
     }
 };

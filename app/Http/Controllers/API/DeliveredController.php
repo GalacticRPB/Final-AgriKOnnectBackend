@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Delivery;
 use App\Models\Delivered;
 use App\Models\Review;
+use App\Models\SellerDelivered;
 
 class DeliveredController extends Controller
 {
@@ -45,9 +46,25 @@ class DeliveredController extends Controller
         $outfordelivery->modeofpayment = $modeofpayment;
         $outfordelivery->save();
 
-        $affected = Delivery::where('order_id', $order_id)->delete();
-        $affected = Order::where('id', $order_id)->delete();
+        $sellerItem = new SellerDelivered;
+        $sellerItem->product_id = $product_id;
+        $sellerItem->seller_id = $seller_id;
+        $sellerItem->customerId = $customerId;
+        $sellerItem->order_id = $order_id;
+        $sellerItem->order_name = $order_name;
+        $sellerItem->order_price = $order_price;
+        $sellerItem->order_qty = $order_qty;
+        $sellerItem->order_total = $order_total;
+        $sellerItem->firstname = $firstname;
+        $sellerItem->middlename = $middlename;
+        $sellerItem->lastname = $lastname;
+        $sellerItem->contactNo = $contactNo;
+        $sellerItem->shippingaddress = $shippingaddress;
+        $sellerItem->modeofpayment = $modeofpayment;
+        $sellerItem->save();
 
+        $affected = Delivery::where('order_id', $order_id)->delete();
+       
         return response()->json([
             'status'=>200,
             'message'=> 'Succefully Delivered',
@@ -56,7 +73,7 @@ class DeliveredController extends Controller
 
     public function showOrderDelivered($user_id)
     {
-        $delivered = Delivered::where('seller_id', $user_id)->get();
+        $delivered = SellerDelivered::where('seller_id', $user_id)->get();
 
         return response()->json([
             'status'=>200,

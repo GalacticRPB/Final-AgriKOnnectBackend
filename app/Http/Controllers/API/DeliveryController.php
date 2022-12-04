@@ -46,6 +46,7 @@ class DeliveryController extends Controller
         $outfordelivery->save();
 
         $products = Product::where('id', $product_id);
+        $affected = Order::where('id', $order_id)->delete();
 
         if($products)
         {

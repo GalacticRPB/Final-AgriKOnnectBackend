@@ -35,7 +35,6 @@ class ReviewController extends Controller
             $order_name = $request->input('order_name');
             $order_qty = $request->input('order_qty');
             $order_total = $request->input('order_total');
-            
 
             $reviewItem = new Review;
             $reviewItem->product_id = $product_id;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Product;
 use App\Models\Delivered;
+use App\Models\SellerDelivered;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -166,7 +167,7 @@ class ProductController extends Controller
 
     public function vegetable()
     {
-        $products = Product::where('category', 'Like', 'Vegetable')->get();
+        $products = Product::where('category', 'Like', 'Vegetables')->get();
         return response()->json([
             'status'=> 200,
             'products'=>$products,
@@ -176,7 +177,7 @@ class ProductController extends Controller
     }
     public function fruit()
     {
-        $products = Product::where('category', 'Like', 'Fruit')->get();
+        $products = Product::where('category', 'Like', 'Fruits')->get();
         return response()->json([
             'status'=> 200,
             'products'=>$products,
@@ -190,7 +191,6 @@ class ProductController extends Controller
 
     public function viewfruit($product_id)
     {
-        $products = Product::find($id);
         $review = Review::where('product_id', $product_id)->get();
         return response()->json([
             'status'=> 200,
@@ -207,16 +207,26 @@ class ProductController extends Controller
         ]);
     }
 
-    public function recentSold($user_id)
+    
+    public function viewproductrecommendation($product_id)
     {
-        $recent = Review::where('seller_id', $user_id)->orderBy('updated_at', 'desc')->get();
+        $review = Review::where('product_id', $product_id)->get();
         return response()->json([
-            'status'=>200,
-            'reviews'=>$recent,
+            'status'=> 200,
+            'reviews' =>$review,
         ]);
     }
 
-    public function dataVisualization()
+    public function recentSold($user_id)
+    {
+        $recent = SellerDelivered::where('seller_id', $user_id)->orderBy('updated_at', 'desc')->get();
+        return response()->json([
+            'status'=>200,
+            'sellerdelivered'=>$recent,
+        ]);
+    }
+
+    /*public function dataVisualization()
     {
         $Cabbage = Review::where('order_name', 'Like', 'Cabbage' )->get();
         $Carrots = Review::where('order_name', 'Like', 'Carrots' )->get();
@@ -252,7 +262,7 @@ class ProductController extends Controller
             'data'=> $data,
         ]);
 
-    }
+    }*/
 
     public function recommended()
     {
@@ -272,17 +282,18 @@ class ProductController extends Controller
         
         echo $data;*/
         
-        $data = Delivered::select('product_id', 'order_price','order_name','order_qty',)->groupBy('product_id', 'order_price','order_name','order_qty')->orderBy('order_qty', 'desc')->get();
-
+        $data = SellerDelivered::select('product_id', 'order_price','order_name','order_qty',)->groupBy('product_id', 'order_price','order_name','order_qty')->orderBy('order_qty', 'desc')->get();
         return response()->json([
             'status'=>200,
-            'data'=> $data,
+            'data'=> $data,       
         ]);
+
     }
+
 
     public function visualization($id)
     {
-        $data = Delivered::select('order_qty')->where('seller_id', $id)->get();
+        $data = SellerDelivered::select('order_qty')->where('seller_id', $id)->get();
 
         return response()->json([
             'status'=>200,
@@ -304,5 +315,13 @@ class ProductController extends Controller
             'data'=> $productCount,
         ]);
     }*/
-    
+    public function myproducts(Request $request, $id) 
+    {
+        $products = Product::where('user_id', $id)->get();
+
+        return response()->json([
+            'status' => 200,
+            'products' => $products,
+        ]);
+    }
 }

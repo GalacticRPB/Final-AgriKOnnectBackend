@@ -38,6 +38,7 @@ class CheckoutController extends Controller
             $order_name = $request->input('order_name');
             $price = $request->input('price');
             $product_id = $request->input('product_id');
+            $image = $request->input('image');
             $product_qty = $request->input('product_qty');
             $total_price = $request->input('total_price');
             $shippingfee = $request->input('shippingfee');
@@ -51,6 +52,7 @@ class CheckoutController extends Controller
             $order->seller_id = $seller_id;
             $order->order_name = $order_name;
             $order->price = $price;
+            $order->image = $image;
             $order->product_id = $product_id;
             $order->product_qty = $product_qty;
             $order->shippingfee = $shippingfee;
@@ -63,7 +65,7 @@ class CheckoutController extends Controller
             $order->modeofpayment = $request->input('modeofpayment');
             $order->save();
             
-            $affected = Cart::where('user_id', $user_id)->delete();
+            $affected = Cart::where('id', $cart_id)->delete();
 
             return response()->json([
                 'status'=>200,

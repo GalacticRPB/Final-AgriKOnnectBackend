@@ -85,5 +85,4 @@ Route::get('customer-recent/{id}',[DeliveredController::class, 'showRecentTransa
 
 Route::get('/data/{id}', [ProductController::class, 'visualization']);
 Route::get('/product-recommended', [ProductController::class, 'recommended']);
-Route::get('view-product-recommendation/{id}',[ProductController::class, 'viewproductrecommendation']);
 Route::get('/getproducts/{id}', [ProductController::class, 'myproducts']);

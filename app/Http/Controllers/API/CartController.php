@@ -18,41 +18,22 @@ class CartController extends Controller
         $fruits_qty = $request->fruits_qty;
         $name = $request->name;
         $price = $request->price;
+        $image = $request->image;
+   
+        $cartItem = new Cart;
+        $cartItem->user_id = $request->input('customerId');
+        $cartItem->product_id = $product_id;
+        $cartItem->seller_id = $seller_id;
+        $cartItem->fruits_qty = $fruits_qty;
+        $cartItem->name = $name;
+        $cartItem->price = $price;
+        $cartItem->image = $image;
+        $cartItem->save();
 
-        $fruitCheck = Product::where('id', $product_id)->first();
-        if($fruitCheck)
-        {
-            if(Cart::where('product_id', $product_id)->where('user_id', $user_id)->exists())
-            {
-                return response()->json([
-                    'status'=>409,
-                    'message'=> $fruitCheck->name. 'Already Added to cart',
-                ]);
-            }
-            else
-            {
-                $cartItem = new Cart;
-                $cartItem->user_id = $request->input('customerId');
-                $cartItem->product_id = $product_id;
-                $cartItem->seller_id = $seller_id;
-                $cartItem->fruits_qty = $fruits_qty;
-                $cartItem->name = $name;
-                $cartItem->price = $price;
-                $cartItem->save();
-
-                return response()->json([
-                    'status'=>201,
-                    'message'=> 'Added to cart',
-                ]);
-            }
-        }
-        else
-        {
-            return response()->json([
-                'status'=> 404,
-                'message'=> 'Product not found'
-            ]);
-        }
+        return response()->json([
+            'status'=>201,
+            'message'=> 'Added to cart',
+        ]);
     }
 
     public function viewbasket(Request $request, $id) 
