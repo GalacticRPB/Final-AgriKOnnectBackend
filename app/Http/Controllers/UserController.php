@@ -39,8 +39,8 @@ class UserController extends Controller
             'username'=>'required',
             'mobilephone'=>'required|max:11',
             'email'=>'required',
-            'image'=>'required|image|mimes:jpeg,png,jpg|max:2048',
-            'userImage'=>'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'image'=>'required|image|mimes:jpeg,png,jpg',
+            'userImage'=>'nullable|image|mimes:jpeg,png,jpg',
             'brgy'=>'nullable',
         ]);
 

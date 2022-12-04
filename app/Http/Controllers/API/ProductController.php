@@ -324,4 +324,6 @@ class ProductController extends Controller
             'products' => $products,
         ]);
     }
+
+
 }
