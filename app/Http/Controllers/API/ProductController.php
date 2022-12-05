@@ -95,7 +95,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(),[
-            'userId' => 'required',
+            'user_id' => 'required',
             'category'=>'required|max:191',
             'name'=>'required|max:191',
             'description'=>'required|max:191',
@@ -115,7 +115,7 @@ class ProductController extends Controller
             $product = Product::find($id);
             if($product)
             {   
-                $product->user_id = $request->input('userId');
+                $product->user_id = $request->input('user_id');
                 $product->category = $request->input('category');
                 $product->name = $request->input('name');
                 $product->description = $request->input('description');

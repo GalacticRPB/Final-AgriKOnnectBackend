@@ -18,7 +18,7 @@ class CustomerController extends Controller
             'middlename'=>'required',
             'lastname'=>'required',
             'username'=>'required',
-            'mobilephone'=>'nullabe|max:11',
+            'mobilephone'=>'nullable|max:11',
             'email'=>'required',
         ]);
 
@@ -44,6 +44,7 @@ class CustomerController extends Controller
             return response()->json([
                 'status'=> 200,
                 'message' => 'Successfully Registered',
+                'customer'=>$customer
             ]);
         }
         

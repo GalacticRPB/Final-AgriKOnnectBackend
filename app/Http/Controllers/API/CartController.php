@@ -38,7 +38,7 @@ class CartController extends Controller
 
     public function viewbasket(Request $request, $id) 
     {
-        $cartItems = Cart::where('user_id', $id)->get();
+        $cartItems = Cart::where('user_id', $id)->orderBy('created_at', 'Desc')->get();
         
         return response()->json([
             'status' => 200,

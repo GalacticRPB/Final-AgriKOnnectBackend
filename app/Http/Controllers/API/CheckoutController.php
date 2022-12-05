@@ -73,6 +73,7 @@ class CheckoutController extends Controller
                 'status'=>200,
                 'message'=>'Order Placed Successfully',
                 'affected'=>$affected,
+                'orders'=>$order,
             ]);
         }
     }
