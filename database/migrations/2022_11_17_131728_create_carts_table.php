@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('user_id');
             $table->string('seller_id');
-            $table->integer('fruits_id');
+            $table->integer('product_id');
             $table->integer('fruits_qty');
             $table->string('image')->nullable();
             $table->string('name');
