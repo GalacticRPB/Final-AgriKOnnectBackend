@@ -19,15 +19,14 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('middlename');
             $table->string('lastname');
-            $table->string('birthdate');
-            $table->string('gender');
+            $table->string('birthdate')->nullable();
+            $table->string('gender')->nullable();
             $table->string('username')->unique();
             $table->string('mobilephone')->unique();
             $table->string('email')->unique();
             $table->string('image')->nullable();
             $table->string('verified')->default('false');
-            $table->string('brgy');
-            $table->string('shippingfee');
+            $table->string('brgy')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
