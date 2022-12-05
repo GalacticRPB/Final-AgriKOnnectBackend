@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('mobilephone')->unique();
             $table->string('email')->unique();
             $table->string('image')->nullable();
-            $table->string('verified')->default('false');
+            $table->string('verified')->default('false')->nullable();
             $table->string('brgy')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
