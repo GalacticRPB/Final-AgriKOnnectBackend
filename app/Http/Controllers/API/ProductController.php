@@ -325,5 +325,32 @@ class ProductController extends Controller
         ]);
     }
 
+    public function sample($id)
+    { 
+        $data = SellerDelivered::where('seller_id', $id)->get();
+        $products = SellerDelivered::where('seller_id', $id)->select('order_name')->groupBy('order_name')->get();
+        $qty = SellerDelivered::where('seller_id', $id)->selectRaw('product_id,SUM(order_qty) as total_qty')->groupBy('product_id')->get();
+        $total = $data->sum->order_total;
 
+        return response()->json([
+            'status' => 200,
+            'price' => $total,
+            'products'=>$products,
+            'qty'=>$qty
+
+        ]);
+
+    }
+
+    public function orderMonthCount($id)
+    {
+        $orderCount = SellerDelivered::whereMonth('created_at', Carbon::now()->month)
+        ->where('seller_id', $id)
+        ->get();
+
+        return response()->json([
+            'status'=> 200,
+            'orderCount'=> $orderCount->count()
+        ]);
+    }
 }

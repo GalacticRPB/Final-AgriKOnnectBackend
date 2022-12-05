@@ -42,6 +42,7 @@ class CheckoutController extends Controller
             $product_qty = $request->input('product_qty');
             $total_price = $request->input('total_price');
             $shippingfee = $request->input('shippingfee');
+            $conviencefee = $request->input('conviencefee');
             $firstname = $request->input('firstname');
             $middlename = $request->input('middlename');
             $lastname = $request->input('lastname');
@@ -56,6 +57,7 @@ class CheckoutController extends Controller
             $order->product_id = $product_id;
             $order->product_qty = $product_qty;
             $order->shippingfee = $shippingfee;
+            $order->conviencefee = $conviencefee;
             $order->total_price = $total_price;
             $order->firstname = $firstname;
             $order->middlename = $middlename;
