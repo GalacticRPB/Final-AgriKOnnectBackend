@@ -32,7 +32,7 @@ class CheckoutController extends Controller
         else 
         {
 
-            $user_id = $request->customerId;
+            $user_id = $request->input('user_id');
             $cart_id = $request->input('cart_id');
             $seller_id = $request->input('seller_id');
             $order_name = $request->input('order_name');
@@ -73,7 +73,6 @@ class CheckoutController extends Controller
                 'status'=>200,
                 'message'=>'Order Placed Successfully',
                 'affected'=>$affected,
-                'orders'=>$order,
             ]);
         }
     }

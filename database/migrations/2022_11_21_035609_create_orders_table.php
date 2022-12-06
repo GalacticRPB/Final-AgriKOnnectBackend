@@ -18,10 +18,18 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('seller_id');
             $table->integer('cart_id');
+            $table->integer('product_id');
+            $table->string('image')->nullable();
+            $table->string('order_name');
+            $table->string('price');
+            $table->string('product_qty');
             $table->string('firstname');
             $table->string('middlename');
             $table->string('lastname');
             $table->string('shippingaddress');
+            $table->integer('shippingfee');
+            $table->integer('conviencefee');
+            $table->integer('total_price');
             $table->string('mobilephone');
             $table->string('modeofpayment');
             $table->timestamps();

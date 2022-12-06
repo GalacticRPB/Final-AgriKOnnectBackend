@@ -21,7 +21,7 @@ class CartController extends Controller
         $image = $request->image;
    
         $cartItem = new Cart;
-        $cartItem->user_id = $request->input('customerId');
+        $cartItem->user_id = $user_id;
         $cartItem->product_id = $product_id;
         $cartItem->seller_id = $seller_id;
         $cartItem->fruits_qty = $fruits_qty;
