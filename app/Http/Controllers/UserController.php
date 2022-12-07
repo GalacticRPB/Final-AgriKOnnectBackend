@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    // for showing unverified seller
     public function index()
     {
         $users = User::where('verified', 'false')->get();
@@ -19,6 +20,7 @@ class UserController extends Controller
 
     }
 
+    // for showing verified seller
     public function index2()
     {
         $users2 = User::where('verified', 'true')->get();
@@ -28,6 +30,7 @@ class UserController extends Controller
         ]);
     }
 
+    // registration of seller
     public function register(Request $req)
     {
         $validator = Validator::make($req->all(), [
@@ -63,6 +66,7 @@ class UserController extends Controller
             $user->mobilephone=$req->input('mobilephone');
             $user->email=$req->input('email');
 
+            // for image upload
             if($req->hasFile('image'))
             {
                 $file = $req->file('image');
@@ -85,7 +89,7 @@ class UserController extends Controller
 
     }
 
-    //
+    //login seller
     function login(Request $req)
     {
         $user= User::where('username',$req->username)->first();
@@ -99,6 +103,7 @@ class UserController extends Controller
         return $user;
     }
 
+    //edit key
     public function edit($id)
     {
         $user = User::find($id);
@@ -119,6 +124,7 @@ class UserController extends Controller
 
     }
 
+    // update seller info
     public function update(Request $req, $id)
     {
         $validator = Validator::make($req->all(),[
@@ -171,6 +177,7 @@ class UserController extends Controller
         }
     }
 
+    //user key to edit password
     public function editPassword($id)
     {
         $user = User::find($id);
@@ -191,6 +198,7 @@ class UserController extends Controller
 
     }
 
+    //update password
     public function updatePassword(Request $req, $id)
     {
         $validator = Validator::make($req->all(),[
@@ -227,6 +235,7 @@ class UserController extends Controller
         }
     }
 
+    //
     public function getUserInfo(Request $request, $id)
     {
         $user = User::where('id', '=', $id)->get();
@@ -254,6 +263,7 @@ class UserController extends Controller
 
     }
 
+    // verification button
     public function verification(Request $request, $id)
     {
         $verified = $request->get('verified');
@@ -269,6 +279,7 @@ class UserController extends Controller
     
     }
 
+    // edit image
     public function editImage($id)
     {
         $user = User::find($id);
